@@ -20,19 +20,16 @@ public class InsertSortUtil {
 	 */
 	public static void directInsertSort(List<Integer> list){
 		for (int i = 1; i < list.size(); i++) {
+		    //取出待排序元素
 			Integer currentElement = list.get(i);
-			//与前面的序列比较，找到k
+			//将当前位置看作是空的，位置为k。与前面的序列比较
 			int k = i;
-			for(int j = i - 1; j >= 0; j--){
-				if(currentElement.compareTo(list.get(j)) < 0){
-					//若被比较的元素元素大，则该元素向前移动一位
-					list.set(j + 1, list.get(j));
-					//记录该位置为k
-					k = j;
-					continue;
-				}
-				//若当前元素比较大，则跳出循环
-				break;
+			//若当前元素比较大，则跳出循环
+			for(int j = i - 1; j >= 0 && currentElement.compareTo(list.get(j)) < 0; j--){
+				//若被比较的元素元素大，则该元素向前移动一位
+				list.set(j + 1, list.get(j));
+				//记录此时的空闲位置为k
+				k = j;
 			}
 			list.set(k, currentElement);
 		}
@@ -72,6 +69,7 @@ public class InsertSortUtil {
 	 * ....
 	 * dn=1，进行插入排序
 	 * 希尔排序
+	 * （貌似有点问题，有空再调整）
 	 */
 	public static void shellSort(List<Integer> list){
 		for(int di=list.size()/2; di>=1; di=di/2){
@@ -80,13 +78,9 @@ public class InsertSortUtil {
 				Integer currentElement = list.get(i);
 				//找到步骤为di排序的插入位置k
 				int k = i;
-				for(int j = i - di; j >= 0; j = j - di){
-					if(currentElement.compareTo(list.get(j)) < 0){
-						list.set(j + di, list.get(j));
-						k = j;
-						continue;
-					}
-					break;
+				for(int j = i - di; j >= 0 && currentElement.compareTo(list.get(j)) < 0; j = j - di){
+                    list.set(j + di, list.get(j));
+                    k = j;
 				}
 				list.set(k, currentElement);
 			}
